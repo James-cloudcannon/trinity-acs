@@ -1,9 +1,10 @@
 ---
 import CustomSection from "@builders/custom-section/CustomSection.astro";
 import Heading from "@core-elements/heading/Heading.astro";
+import Image from "@core-elements/image/Image.astro";
 import SimpleText from "@core-elements/simple-text/SimpleText.astro";
-import Carousel from "@wrappers/carousel/Carousel.astro";
 import NewsCarouselItem from "@page-sections/info-blocks/news-carousel/NewsCarouselItem.astro";
+import Carousel from "@wrappers/carousel/Carousel.astro";
 
 type NewsItemProps = Record<string, unknown>;
 
@@ -47,18 +48,19 @@ if (!_component && !hasContent) return;
   {...htmlAttributes}
 >
   <div class="news-carousel-parallax">
-    <div
-      class="news-carousel-parallax-image"
-      style={parallaxImageSource
-        ? `background-image: url('${parallaxImageSource}');`
-        : undefined}
-      data-editable="image"
-      data-prop-src="parallaxImageSource"
-      data-prop-alt="parallaxImageAlt"
-      role={parallaxImageAlt ? "img" : undefined}
-      aria-label={parallaxImageAlt || undefined}
-    >
-    </div>
+    {parallaxImageSource && (
+      <Image
+        class="news-carousel-parallax-image"
+        source={parallaxImageSource}
+        alt={parallaxImageAlt}
+        background={true}
+        widths={[640, 1280, 1920]}
+        sizes="100vw"
+        data-prop-src="parallaxImageSource"
+        data-prop-alt="parallaxImageAlt"
+        useDefaultEditableBinding={false}
+      />
+    )}
     <div class="news-carousel-parallax-overlay" aria-hidden="true"></div>
     <div class="news-carousel-parallax-content">
       <Heading
@@ -124,12 +126,18 @@ if (!_component && !hasContent) return;
     }
 
     .news-carousel .news-carousel-parallax-image {
-      background-position: 50% 50%;
-      background-repeat: no-repeat;
-      background-size: cover;
       inset: 0;
       position: absolute;
       z-index: 0;
+    }
+
+    .news-carousel .news-carousel-parallax-image > .image-inner,
+    .news-carousel .news-carousel-parallax-image picture,
+    .news-carousel .news-carousel-parallax-image img {
+      height: 100%;
+      object-fit: cover;
+      object-position: center center;
+      width: 100%;
     }
 
     .news-carousel .news-carousel-parallax-overlay {
