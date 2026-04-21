@@ -1,0 +1,137 @@
+---
+import CustomSection from "@builders/custom-section/CustomSection.astro";
+import Heading from "@core-elements/heading/Heading.astro";
+import SimpleText from "@core-elements/simple-text/SimpleText.astro";
+import ButtonGroup from "@wrappers/button-group/ButtonGroup.astro";
+
+const {
+  heading = "",
+  subtitle = "",
+  buttonSections = [],
+  sectionLabel,
+  maxContentWidth = "2xl",
+  paddingHorizontal = "lg",
+  paddingVertical = "4xl",
+  colorScheme = "dark",
+  backgroundColor,
+  background,
+  class: className,
+  useDefaultEditableBinding = false,
+  _component,
+  ...htmlAttributes
+} = Astro.props;
+---
+
+<CustomSection
+  class:list={["upcoming-events-cta", className]}
+  label={sectionLabel}
+  maxContentWidth={maxContentWidth}
+  paddingHorizontal={paddingHorizontal}
+  paddingVertical={paddingVertical}
+  colorScheme={colorScheme}
+  backgroundColor={backgroundColor}
+  background={background}
+  useDefaultEditableBinding={useDefaultEditableBinding}
+  {...htmlAttributes}
+>
+  <Heading
+    level="h2"
+    size="lg"
+    alignmentHorizontal="center"
+    data-prop="heading"
+    text={heading}
+  />
+  <SimpleText
+    class="upcoming-events-cta__subtitle"
+    size="2xl"
+    alignmentHorizontal="center"
+    data-prop="subtitle"
+    text={subtitle}
+  />
+  <ButtonGroup
+    class="upcoming-events-cta__buttons"
+    buttonSections={buttonSections}
+    alignmentHorizontal="center"
+    data-children-prop="buttonSections"
+  />
+  <div class="upcoming-events-cta__bottom-strip bottom-strip" aria-hidden="true"></div>
+</CustomSection>
+
+<style>
+  @layer page-sections {
+    .upcoming-events-cta {
+      animation: upcoming-events-cta-fadeIn 1s ease both;
+    }
+
+    @keyframes upcoming-events-cta-fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .upcoming-events-cta {
+        animation: none;
+      }
+    }
+  }
+
+  @layer overrides {
+    .upcoming-events-cta {
+      position: relative;
+    }
+
+    .upcoming-events-cta :global(.outer-content) {
+      background-color: rgb(232, 236, 239);
+      background-image: linear-gradient(
+        rgba(3, 38, 61, 0.65),
+        rgba(3, 38, 61, 0.65)
+      );
+    }
+
+    .upcoming-events-cta__bottom-strip {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100vw;
+      max-width: 100vw;
+      bottom: 0;
+      height: 45px;
+      background-color: rgb(232, 236, 239);
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .upcoming-events-cta :global(.upcoming-events-cta__subtitle .simple-text-content) {
+      font-family: "Libre Baskerville", Georgia, "Times New Roman", serif !important;
+      font-style: italic !important;
+      line-height: 1.9 !important;
+      color: #fff !important;
+    }
+
+    .upcoming-events-cta :global(.upcoming-events-cta__buttons) {
+      margin-top: var(--spacing-2xl) !important;
+    }
+
+    .upcoming-events-cta :global(.upcoming-events-cta__buttons .button-inner) {
+      background-color: var(--brand-navy) !important;
+      color: #fff !important;
+      border-color: var(--brand-navy) !important;
+      border-radius: 0 !important;
+      font-size: 0.875rem !important;
+      font-weight: 600 !important;
+      padding-block: 0.875rem !important;
+      padding-inline: 1.75rem !important;
+      text-transform: capitalize !important;
+      transition: background-color 0.2s ease, border-color 0.2s ease !important;
+    }
+
+    .upcoming-events-cta :global(.upcoming-events-cta__buttons .button-inner:hover) {
+      background-color: var(--brand-navy-alt) !important;
+      border-color: var(--brand-navy-alt) !important;
+    }
+  }
+</style>

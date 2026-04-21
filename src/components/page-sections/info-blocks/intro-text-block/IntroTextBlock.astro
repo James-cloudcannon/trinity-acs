@@ -1,0 +1,219 @@
+---
+import CustomSection from "@builders/custom-section/CustomSection.astro";
+import Heading from "@core-elements/heading/Heading.astro";
+import Icon from "@core-elements/icon/Icon.astro";
+
+const {
+  announcementText = "",
+  announcementLink = "",
+  announcementLinkNewTab = true,
+  ctaText = "",
+  ctaLink = "",
+  introText = "",
+  showDiamondScroll = true,
+  scrollAnchorLink = "#about",
+  sectionLabel = "about",
+  maxContentWidth = "2xl",
+  paddingHorizontal = "lg",
+  paddingVertical = "sm",
+  colorScheme = "inherit",
+  backgroundColor = "surface",
+  background,
+  class: className,
+  useDefaultEditableBinding = false,
+  _component,
+  ...htmlAttributes
+} = Astro.props;
+
+const hasAnnouncement = announcementText && announcementText.trim().length > 0;
+const hasCta = ctaText && ctaText.trim().length > 0;
+const hasIntro = introText && introText.trim().length > 0;
+const hasContent = hasAnnouncement || hasCta || hasIntro;
+
+const announcementTargetAttrs = announcementLinkNewTab
+  ? { target: "_blank", rel: "noopener noreferrer" }
+  : {};
+
+if (!_component && !hasContent) return;
+---
+
+<CustomSection
+  {...htmlAttributes}
+  class:list={["intro-text-block", className]}
+  label={sectionLabel}
+  maxContentWidth={maxContentWidth}
+  paddingHorizontal={paddingHorizontal}
+  paddingVertical={paddingVertical}
+  colorScheme={colorScheme}
+  backgroundColor={backgroundColor}
+  background={background}
+  useDefaultEditableBinding={useDefaultEditableBinding}
+>
+  {showDiamondScroll && (
+    <div class="intro-text-block__diamond-wrap">
+      <a
+        class="intro-text-block__diamond"
+        href={scrollAnchorLink}
+        aria-label="Scroll to content"
+        data-editable="link"
+        data-prop="scrollAnchorLink"
+      >
+        <span class="intro-text-block__diamond-icon">
+          <Icon
+            name="chevron-down"
+            size="md"
+          />
+        </span>
+      </a>
+    </div>
+  )}
+
+  <div class="intro-text-block__body">
+    {hasAnnouncement && (
+      <Heading
+        level="h3"
+        size="sm"
+        alignmentHorizontal="center"
+        class="intro-text-block__announcement"
+      >
+        {announcementLink ? (
+          <a href={announcementLink} {...announcementTargetAttrs} data-editable="text" data-prop="announcementText">{announcementText}</a>
+        ) : (
+          <span data-editable="text" data-prop="announcementText">{announcementText}</span>
+        )}
+      </Heading>
+    )}
+
+    {hasCta && (
+      <Heading
+        level="h1"
+        size="2xl"
+        alignmentHorizontal="center"
+        class="intro-text-block__cta"
+      >
+        {ctaLink ? (
+          <a href={ctaLink} data-editable="text" data-prop="ctaText">{ctaText}</a>
+        ) : (
+          <span data-editable="text" data-prop="ctaText">{ctaText}</span>
+        )}
+      </Heading>
+    )}
+
+    {hasIntro && (
+      <Heading
+        level="h3"
+        size="sm"
+        alignmentHorizontal="center"
+        class="intro-text-block__intro"
+        text={introText}
+        data-prop="introText"
+      />
+    )}
+  </div>
+</CustomSection>
+
+<style is:global>
+  @layer overrides {
+    h3.heading.intro-text-block__announcement > .heading-inner,
+    h3.heading.intro-text-block__intro > .heading-inner {
+      color: rgb(33, 37, 41);
+      font-weight: 200;
+      max-width: none;
+    }
+
+    h1.heading.intro-text-block__cta > .heading-inner {
+      color: rgb(33, 37, 41);
+      font-weight: 500;
+    }
+
+    h3.heading.intro-text-block__announcement > .heading-inner a,
+    h1.heading.intro-text-block__cta > .heading-inner a {
+      color: var(--brand-primary);
+      font-weight: inherit;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    h3.heading.intro-text-block__announcement > .heading-inner a:hover,
+    h1.heading.intro-text-block__cta > .heading-inner a:hover {
+      color: var(--brand-primary-dark);
+      text-decoration: underline;
+    }
+  }
+
+  @layer page-sections {
+    .intro-text-block {
+      position: relative;
+      z-index: 11;
+    }
+
+    .intro-text-block__diamond-wrap {
+      display: flex;
+      justify-content: center;
+      left: 0;
+      position: absolute;
+      right: 0;
+      top: 0;
+      transform: translateY(-50%);
+      z-index: 2;
+    }
+
+    .intro-text-block__diamond {
+      align-items: center;
+      background-color: #fff;
+      box-shadow: rgba(12, 0, 71, 0.1) 0 0 40px 0;
+      color: var(--brand-primary);
+      display: flex;
+      height: 60px;
+      justify-content: center;
+      text-decoration: none;
+      transform: rotate(45deg);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      width: 60px;
+    }
+
+    .intro-text-block__diamond:hover {
+      box-shadow: rgba(12, 0, 71, 0.2) 0 0 50px 0;
+      transform: rotate(45deg) translateY(-2px);
+    }
+
+    .intro-text-block__diamond-icon {
+      color: var(--brand-primary);
+      display: inline-flex;
+      font-size: 1.5rem;
+      transform: rotate(-45deg);
+    }
+
+    .intro-text-block__body {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-2xl);
+    }
+
+    .intro-text-block__announcement.heading,
+    .intro-text-block__cta.heading,
+    .intro-text-block__intro.heading {
+      margin-top: 0;
+    }
+
+    @keyframes intro-text-block-fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .intro-text-block {
+      animation: intro-text-block-fadeIn 1s ease both;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .intro-text-block {
+        animation: none;
+      }
+      .intro-text-block__diamond,
+      .intro-text-block__announcement .heading-inner a,
+      .intro-text-block__cta .heading-inner a {
+        transition: none;
+      }
+    }
+  }
+</style>

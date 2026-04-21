@@ -1,0 +1,101 @@
+/* Trinity Catholic College brand overrides
+ * - Square-corner buttons (source border-radius: 0)
+ * - Open Sans heading stack
+ * - Custom button palette matching primary #8a1538 with #710f2c hover
+ *
+ * Selectors match toolkit-catalog markup:
+ *   Button:  .button > .button-inner (variant-{primary|secondary|tertiary|ghost|text})
+ *   Heading: .heading > .heading-inner (size-{xs|sm|...})
+ *
+ * This stylesheet is imported at the top level (style.css), so rules are
+ * already global. No :global() wrapper needed here — that's for Astro
+ * component <style> blocks only.
+ */
+
+@layer overrides {
+  /* Heading family + weights — source uses Open Sans with weight variants per level */
+  .heading {
+    font-family: var(--font-family-heading);
+    letter-spacing: -0.5px;
+    text-wrap: balance;
+  }
+
+  .heading-inner {
+    font-family: var(--font-family-heading);
+  }
+
+  /* h3 uses a light weight (200) on the source */
+  h3.heading > .heading-inner {
+    font-weight: var(--font-weight-light);
+    letter-spacing: normal;
+  }
+
+  /* h1 uses bold (700) */
+  h1.heading > .heading-inner {
+    font-weight: var(--font-weight-bold);
+  }
+
+  /* h2 uses regular (400) */
+  h2.heading > .heading-inner {
+    font-weight: var(--font-weight-normal);
+  }
+
+  /* Buttons — source uses border-radius: 0 (square corners) and no text-transform */
+  .button-inner {
+    border-radius: 0;
+    text-transform: none;
+    letter-spacing: normal;
+    font-family: var(--font-family-body);
+  }
+
+  /* Primary button: #8a1538 background, white text, hover to #710f2c */
+  .button-inner.variant-primary {
+    background-color: var(--brand-primary);
+    color: var(--gray-0);
+    border-color: var(--brand-primary);
+  }
+
+  .button-inner.variant-primary:hover {
+    background-color: var(--brand-primary-dark);
+    border-color: var(--brand-primary-dark);
+    color: var(--gray-0);
+  }
+
+  /* Secondary button: outline style with primary color */
+  .button-inner.variant-secondary {
+    background-color: transparent;
+    color: var(--brand-primary);
+    border-color: var(--brand-primary);
+  }
+
+  .button-inner.variant-secondary:hover {
+    background-color: var(--brand-primary);
+    color: var(--gray-0);
+  }
+
+  /* Tertiary: dark navy accent */
+  .button-inner.variant-tertiary {
+    background-color: var(--brand-navy);
+    color: var(--gray-0);
+    border-color: var(--brand-navy);
+  }
+
+  .button-inner.variant-tertiary:hover {
+    background-color: var(--brand-navy-alt);
+    border-color: var(--brand-navy-alt);
+  }
+
+  /* Text variant: primary color link style */
+  .button-inner.variant-text {
+    color: var(--brand-primary);
+  }
+
+  .button-inner.variant-text:hover {
+    color: var(--brand-primary-dark);
+  }
+
+  /* Cards — keep squared corners matching the source tiles */
+  .card {
+    border-radius: 0;
+  }
+}

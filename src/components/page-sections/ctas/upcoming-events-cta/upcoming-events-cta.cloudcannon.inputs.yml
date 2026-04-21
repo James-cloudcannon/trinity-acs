@@ -1,0 +1,11 @@
+heading:
+  type: text
+  comment: Centered headline for the CTA band (e.g. "Upcoming Events").
+subtitle:
+  type: text
+  comment: Italic serif subtitle beneath the headline.
+buttonSections:
+  type: array
+  comment: Primary call-to-action button (typically one).
+  options:
+    structures: _structures.buttonSections

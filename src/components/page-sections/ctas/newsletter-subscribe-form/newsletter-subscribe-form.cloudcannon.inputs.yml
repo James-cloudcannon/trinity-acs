@@ -1,0 +1,27 @@
+heading:
+  type: text
+  comment: Centered heading shown above the subscribe form (e.g. "Sign up to receive our newsletter").
+formAction:
+  type: url
+  comment: Form submission endpoint. Typical value is a Mailchimp subscribe URL (e.g. //school.us15.list-manage.com/subscribe/post?u=...&id=...).
+nameLabel:
+  type: text
+  comment: Accessibility label for the name input (visually hidden; used by screen readers).
+namePlaceholder:
+  type: text
+  comment: Placeholder text shown inside the name input.
+nameFieldName:
+  type: text
+  comment: HTML form-field name for the name input. Mailchimp expects "NAME".
+emailLabel:
+  type: text
+  comment: Accessibility label for the email input (visually hidden; used by screen readers).
+emailPlaceholder:
+  type: text
+  comment: Placeholder text shown inside the email input.
+emailFieldName:
+  type: text
+  comment: HTML form-field name for the email input. Mailchimp expects "EMAIL".
+submitText:
+  type: text
+  comment: Text shown on the Subscribe submit button.

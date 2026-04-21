@@ -1,0 +1,104 @@
+{
+  "logoSource": "/images/header-crest.svg",
+  "logoAlternateSource": "/images/header-crest.svg",
+  "logoAlt": "Trinity Catholic College",
+  "themeToggle": false,
+  "facebookHref": "https://www.facebook.com/TrinityCatholicCollegeNZ/",
+  "searchAction": "/search/",
+  "topLinks": [
+    { "name": "International", "path": "/international/" },
+    { "name": "Latest News", "path": "/latest-news/" },
+    { "name": "Previous Newsletters", "path": "/previous-newsletters/" },
+    { "name": "Events Calendar", "path": "/events-calendar/" },
+    { "name": "Enrolments", "path": "/enrolments/" },
+    { "name": "Library", "path": "/library/" },
+    { "name": "Termly Newsletter & School Magazine", "path": "/ipse-duce-and-school-magazine/" },
+    { "name": "Contact", "path": "/contact/" },
+    { "name": "Sponsor a Seat", "path": "/sponsor-a-seat/" }
+  ],
+  "navData": [
+    {
+      "name": "About",
+      "path": "/about/principals-message/",
+      "children": [
+        { "name": "Principal's Message", "path": "/about/principals-message/" },
+        { "name": "School Information", "path": "/about/school-information/" },
+        { "name": "History", "path": "/about/history/" },
+        { "name": "Special Character", "path": "/about/special-character/" },
+        { "name": "Staff", "path": "/about/staff/" },
+        { "name": "Board of Trinity Catholic College", "path": "/about/board-of-trinity-catholic-college/" },
+        { "name": "Planning and Reporting", "path": "/about/planning-and-reporting/" },
+        { "name": "School Policies", "path": "/about/school-policies/" },
+        { "name": "Cyber Safety", "path": "/about/cyber-safety/" }
+      ]
+    },
+    {
+      "name": "Curriculum",
+      "path": "/curriculum/subjects/",
+      "children": [
+        { "name": "Te Tīmataka", "path": "/curriculum/te-timatanga/" },
+        { "name": "Year 7 - 9 Option Subjects", "path": "/curriculum/year-7-9-option-subjects/" },
+        { "name": "Year 10 Overview", "path": "/curriculum/year-10-overview/year-10-core-subjects/" },
+        { "name": "Year 11 - 13 Overview", "path": "/curriculum/year-11-13-overview/" },
+        { "name": "Subjects", "path": "/curriculum/subjects/" },
+        { "name": "NCEA", "path": "/curriculum/ncea/overview/" },
+        { "name": "Gifted & Talented", "path": "/curriculum/gifted-and-talented/" },
+        { "name": "Learning Support", "path": "/curriculum/learning-support/" }
+      ]
+    },
+    {
+      "name": "Sport",
+      "path": "/sport/trinity-sports/",
+      "children": [
+        { "name": "Sports Registration", "path": "/sport/sports-registration/" },
+        { "name": "Draws and Notices", "path": "/sport/draws/" },
+        { "name": "Trinity Sports", "path": "/sport/trinity-sports/" }
+      ]
+    },
+    {
+      "name": "Culture",
+      "path": "/culture/",
+      "children": [
+        { "name": "Co-Curricular Music Opportunities", "path": "/culture/co-curricular-music-opportunities/" },
+        { "name": "Itinerant Music Programmes", "path": "/culture/itinerant-music-programmes/" },
+        { "name": "Kapa Haka", "path": "/culture/kapa-haka/" },
+        { "name": "Theatre", "path": "/culture/theatre/" },
+        { "name": "Musical", "path": "/culture/musical/" },
+        { "name": "Debating", "path": "/culture/debating/" },
+        { "name": "Dance", "path": "/culture/dance/" },
+        { "name": "Bishop's Shield", "path": "/culture/bishops-shield/" }
+      ]
+    },
+    {
+      "name": "Co-curricular",
+      "path": "/co-curricular/",
+      "children": [
+        { "name": "Enviroschool", "path": "/co-curricular/enviroschool/" }
+      ]
+    }
+  ],
+  "buttonSections": [
+    {
+      "_component": "building-blocks/core-elements/button",
+      "text": "Facebook",
+      "hideText": true,
+      "link": "https://www.facebook.com/TrinityCatholicCollegeNZ/",
+      "element": "a",
+      "iconName": "social/facebook",
+      "iconPosition": "before",
+      "variant": "ghost",
+      "size": "lg"
+    },
+    {
+      "_component": "building-blocks/core-elements/button",
+      "text": "Search",
+      "hideText": true,
+      "link": "/search/",
+      "element": "a",
+      "iconName": "magnifying-glass",
+      "iconPosition": "before",
+      "variant": "ghost",
+      "size": "lg"
+    }
+  ]
+}

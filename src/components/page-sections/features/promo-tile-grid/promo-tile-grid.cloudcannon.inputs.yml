@@ -1,0 +1,6 @@
+tiles:
+  type: array
+  label: Tiles
+  comment: Promo tiles rendered as a 3-column grid. Each tile is a clickable full-bleed image with a navy overlay and a centered heading.
+  options:
+    structures: _structures.promoTileGridItems

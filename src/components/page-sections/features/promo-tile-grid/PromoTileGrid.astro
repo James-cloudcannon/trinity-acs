@@ -1,0 +1,88 @@
+---
+import CustomSection from "@builders/custom-section/CustomSection.astro";
+import PromoTile from "@features/promo-tile-grid/PromoTile.astro";
+
+type TileProps = Record<string, unknown>;
+
+const {
+  tiles = [],
+  sectionLabel,
+  maxContentWidth = "2xl",
+  paddingHorizontal = "lg",
+  paddingVertical = "none",
+  colorScheme = "inherit",
+  backgroundColor,
+  background,
+  class: className,
+  useDefaultEditableBinding = false,
+  _component,
+  ...htmlAttributes
+} = Astro.props;
+---
+
+<CustomSection
+  class:list={["promo-tile-grid", className]}
+  label={sectionLabel}
+  maxContentWidth={maxContentWidth}
+  paddingHorizontal={paddingHorizontal}
+  paddingVertical={paddingVertical}
+  colorScheme={colorScheme}
+  backgroundColor={backgroundColor}
+  background={background}
+  useDefaultEditableBinding={useDefaultEditableBinding}
+  {...htmlAttributes}
+>
+  <div
+    class="promo-tile-grid-grid"
+    data-editable="array"
+    data-prop="tiles"
+  >
+    {
+      tiles.map((tile: TileProps) => (
+        <PromoTile
+          data-id="page-sections/features/promo-tile-grid/promo-tile"
+          data-editable="array-item"
+          {...tile}
+        />
+      ))
+    }
+  </div>
+</CustomSection>
+
+<style is:global>
+  @layer page-sections {
+    .promo-tile-grid .promo-tile-grid-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+    }
+
+    @media (width < 768px) {
+      .promo-tile-grid .promo-tile-grid-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (width < 480px) {
+      .promo-tile-grid .promo-tile-grid-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* fadeIn on first render — load-once */
+    .promo-tile-grid .promo-tile-grid-grid {
+      animation: promo-tile-grid-fadeIn 1s ease both;
+    }
+
+    @keyframes promo-tile-grid-fadeIn {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .promo-tile-grid .promo-tile-grid-grid {
+        animation: none;
+      }
+    }
+  }
+</style>

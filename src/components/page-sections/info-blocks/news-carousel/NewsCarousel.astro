@@ -1,0 +1,292 @@
+---
+import CustomSection from "@builders/custom-section/CustomSection.astro";
+import Heading from "@core-elements/heading/Heading.astro";
+import SimpleText from "@core-elements/simple-text/SimpleText.astro";
+import Carousel from "@wrappers/carousel/Carousel.astro";
+import NewsCarouselItem from "@page-sections/info-blocks/news-carousel/NewsCarouselItem.astro";
+
+type NewsItemProps = Record<string, unknown>;
+
+const {
+  sectionLabel,
+  heading = "Latest News",
+  subtitle = "",
+  parallaxImageSource = "",
+  parallaxImageAlt = "",
+  items = [],
+  maxContentWidth = "none",
+  paddingHorizontal = "none",
+  paddingVertical = "none",
+  colorScheme = "inherit",
+  backgroundColor,
+  background,
+  class: className,
+  useDefaultEditableBinding = false,
+  _component,
+  ...htmlAttributes
+} = Astro.props;
+
+const hasHeading = heading?.trim().length > 0;
+const hasSubtitle = subtitle?.trim().length > 0;
+const hasItems = Array.isArray(items) && items.length > 0;
+const hasContent = hasHeading || hasSubtitle || hasItems;
+
+if (!_component && !hasContent) return;
+---
+
+<CustomSection
+  class:list={["news-carousel", className]}
+  label={sectionLabel}
+  maxContentWidth={maxContentWidth}
+  paddingHorizontal={paddingHorizontal}
+  paddingVertical={paddingVertical}
+  colorScheme={colorScheme}
+  backgroundColor={backgroundColor}
+  background={background}
+  useDefaultEditableBinding={useDefaultEditableBinding}
+  {...htmlAttributes}
+>
+  <div class="news-carousel-parallax">
+    <div
+      class="news-carousel-parallax-image"
+      style={parallaxImageSource
+        ? `background-image: url('${parallaxImageSource}');`
+        : undefined}
+      data-editable="image"
+      data-prop-src="parallaxImageSource"
+      data-prop-alt="parallaxImageAlt"
+      role={parallaxImageAlt ? "img" : undefined}
+      aria-label={parallaxImageAlt || undefined}
+    >
+    </div>
+    <div class="news-carousel-parallax-overlay" aria-hidden="true"></div>
+    <div class="news-carousel-parallax-content">
+      <Heading
+        level="h2"
+        size="lg"
+        alignmentHorizontal="center"
+        text={heading}
+        data-prop="heading"
+      />
+      <SimpleText
+        class="news-carousel-subtitle"
+        size="2xl"
+        alignmentHorizontal="center"
+        text={subtitle}
+        data-prop="subtitle"
+      />
+    </div>
+  </div>
+
+  <div class="news-carousel-track-wrapper">
+    <Carousel
+      label="News carousel"
+      slideWidthPercent={25}
+      minSlideWidth={260}
+      autoPlay={false}
+      autoScroll={false}
+      showIndicators={false}
+      showArrows={true}
+      loop={true}
+      alignmentHorizontal="start"
+      data-children-prop="items"
+    >
+      {
+        items.map((item: NewsItemProps, index: number) => (
+          <NewsCarouselItem
+            data-editable="array-item"
+            data-id="page-sections/info-blocks/news-carousel/news-carousel-item"
+            aria-label={`News article ${index + 1} of ${items.length}`}
+            {...item}
+          />
+        ))
+      }
+    </Carousel>
+  </div>
+</CustomSection>
+
+<style is:global>
+  @layer page-sections {
+    .news-carousel {
+      background-color: var(--brand-surface-grey);
+    }
+
+    .news-carousel > .outer-content > .content {
+      padding-inline: 0;
+      padding-block: 0;
+    }
+
+    .news-carousel .news-carousel-parallax {
+      height: 369px;
+      overflow: hidden;
+      position: relative;
+      width: 100%;
+    }
+
+    .news-carousel .news-carousel-parallax-image {
+      background-position: 50% 50%;
+      background-repeat: no-repeat;
+      background-size: cover;
+      inset: 0;
+      position: absolute;
+      z-index: 0;
+    }
+
+    .news-carousel .news-carousel-parallax-overlay {
+      background-color: var(--brand-navy);
+      inset: 0;
+      opacity: 0.65;
+      position: absolute;
+      z-index: 1;
+    }
+
+    .news-carousel .news-carousel-parallax-content {
+      align-items: center;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      justify-content: flex-start;
+      padding-block: 55px 0;
+      padding-inline: 80px;
+      position: relative;
+      text-align: center;
+      z-index: 2;
+    }
+
+    .news-carousel .news-carousel-parallax-content .heading,
+    .news-carousel .news-carousel-parallax-content .heading .heading-inner,
+    .news-carousel .news-carousel-parallax-content .heading .heading-text {
+      color: #fff;
+    }
+
+    .news-carousel .news-carousel-parallax-content .heading {
+      margin-top: 0;
+    }
+
+    .news-carousel .news-carousel-parallax-content .news-carousel-subtitle {
+      margin-top: var(--spacing-sm);
+    }
+
+    .news-carousel .news-carousel-parallax-content .news-carousel-subtitle .simple-text-content {
+      color: #fff;
+      font-family: "Libre Baskerville", Georgia, serif;
+      font-style: italic;
+      font-weight: 400;
+    }
+
+    .news-carousel .news-carousel-track-wrapper {
+      margin-inline: auto;
+      max-width: 1140px;
+      padding-inline: 15px;
+      position: relative;
+    }
+
+    .news-carousel .news-carousel-track-wrapper .carousel {
+      margin-top: 0;
+      transform: translateY(-140px);
+    }
+
+    .news-carousel .news-carousel-track-wrapper + * {
+      margin-top: -140px;
+    }
+
+    /* Nav arrows: positioned on the parallax header edges */
+    .news-carousel .news-carousel-track-wrapper .carousel .controls-wrapper {
+      left: 0;
+      margin: 0;
+      pointer-events: none;
+      position: absolute;
+      right: 0;
+      top: -45px;
+      transform: translateY(-100%);
+      z-index: 5;
+    }
+
+    .news-carousel .news-carousel-track-wrapper .carousel .controls-wrapper .prev,
+    .news-carousel .news-carousel-track-wrapper .carousel .controls-wrapper .next {
+      pointer-events: auto;
+      position: absolute;
+    }
+
+    .news-carousel .news-carousel-track-wrapper .carousel .controls-wrapper .prev {
+      left: -45px;
+    }
+
+    .news-carousel .news-carousel-track-wrapper .carousel .controls-wrapper .next {
+      right: -45px;
+    }
+
+    .news-carousel .news-carousel-track-wrapper .carousel .controls-wrapper svg {
+      height: 28px;
+      width: 28px;
+    }
+
+    .news-carousel .news-carousel-track-wrapper .slide {
+      padding-inline: 6px;
+    }
+
+    /* fadeIn on mount (load-once CSS animation, namespaced) */
+    .news-carousel .news-carousel-parallax,
+    .news-carousel .news-carousel-track-wrapper {
+      animation: news-carousel-fadeIn 1s ease both;
+    }
+
+    @keyframes news-carousel-fadeIn {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .news-carousel .news-carousel-parallax,
+      .news-carousel .news-carousel-track-wrapper {
+        animation: none;
+      }
+    }
+
+    @media (width < 768px) {
+      .news-carousel .news-carousel-parallax {
+        height: 240px;
+      }
+
+      .news-carousel .news-carousel-track-wrapper .carousel {
+        transform: translateY(-80px);
+      }
+
+      .news-carousel .news-carousel-track-wrapper + * {
+        margin-top: -80px;
+      }
+
+      .news-carousel .news-carousel-track-wrapper .carousel .controls-wrapper .prev {
+        left: 4px;
+      }
+
+      .news-carousel .news-carousel-track-wrapper .carousel .controls-wrapper .next {
+        right: 4px;
+      }
+    }
+  }
+
+  @layer overrides {
+    .news-carousel .news-carousel-track-wrapper .carousel .controls-wrapper .prev > .button-inner,
+    .news-carousel .news-carousel-track-wrapper .carousel .controls-wrapper .next > .button-inner {
+      align-items: center;
+      background-color: #fff;
+      border: 0;
+      border-radius: 0;
+      color: var(--brand-navy);
+      display: flex;
+      height: 57px;
+      justify-content: center;
+      padding: 0;
+      width: 57px;
+    }
+
+    .news-carousel .news-carousel-track-wrapper .carousel .controls-wrapper .prev > .button-inner:hover,
+    .news-carousel .news-carousel-track-wrapper .carousel .controls-wrapper .next > .button-inner:hover {
+      background-color: var(--brand-surface-grey);
+      border: 0;
+      color: var(--brand-navy);
+    }
+  }
+}
+</style>

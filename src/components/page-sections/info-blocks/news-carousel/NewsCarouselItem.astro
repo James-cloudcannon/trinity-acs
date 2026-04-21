@@ -1,0 +1,192 @@
+---
+import CarouselSlide from "@wrappers/carousel/CarouselSlide.astro";
+import Heading from "@core-elements/heading/Heading.astro";
+import Image from "@core-elements/image/Image.astro";
+import SimpleText from "@core-elements/simple-text/SimpleText.astro";
+
+const {
+  title = "",
+  date = "",
+  lead = "",
+  imageSource = "",
+  imageAlt = "",
+  link = "",
+  class: className,
+  useDefaultEditableBinding: _useDefaultEditableBinding = false,
+  _component,
+  ...htmlAttributes
+} = Astro.props;
+
+const hasLink = link?.trim().length > 0;
+---
+
+<CarouselSlide
+  class:list={["news-carousel-item", className]}
+  {...htmlAttributes}
+>
+  {
+    hasLink ? (
+      <a
+        class="news-carousel-card"
+        href={link}
+        data-prop="link"
+      >
+        <div class="news-carousel-card-image">
+          <Image
+            source={imageSource}
+            alt={imageAlt || title}
+            sizes="(max-width: 768px) 100vw, 280px"
+            widths={[280, 560]}
+            width={280}
+            height={200}
+            aspectRatio="landscape"
+            data-prop-src="imageSource"
+            data-prop-alt="imageAlt"
+          />
+        </div>
+        <div class="news-carousel-card-body">
+          <Heading
+            class="news-carousel-card-title"
+            level="h3"
+            size="sm"
+            text={title}
+            data-prop="title"
+          />
+          <SimpleText
+            class="news-carousel-card-date"
+            size="sm"
+            text={date}
+            data-prop="date"
+          />
+          <SimpleText
+            class="news-carousel-card-lead"
+            size="sm"
+            text={lead}
+            data-prop="lead"
+          />
+        </div>
+      </a>
+    ) : (
+      <div class="news-carousel-card">
+        <div class="news-carousel-card-image">
+          <Image
+            source={imageSource}
+            alt={imageAlt || title}
+            sizes="(max-width: 768px) 100vw, 280px"
+            widths={[280, 560]}
+            width={280}
+            height={200}
+            aspectRatio="landscape"
+            data-prop-src="imageSource"
+            data-prop-alt="imageAlt"
+          />
+        </div>
+        <div class="news-carousel-card-body">
+          <Heading
+            class="news-carousel-card-title"
+            level="h3"
+            size="sm"
+            text={title}
+            data-prop="title"
+          />
+          <SimpleText
+            class="news-carousel-card-date"
+            size="sm"
+            text={date}
+            data-prop="date"
+          />
+          <SimpleText
+            class="news-carousel-card-lead"
+            size="sm"
+            text={lead}
+            data-prop="lead"
+          />
+        </div>
+      </div>
+    )
+  }
+</CarouselSlide>
+
+<style is:global>
+  @layer page-sections {
+    .news-carousel-item .news-carousel-card {
+      background-color: #fff;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      height: 456px;
+      overflow: hidden;
+      text-decoration: none;
+      transition:
+        border-color 0.15s ease-in-out,
+        box-shadow 0.15s ease-in-out;
+      width: 100%;
+    }
+
+    .news-carousel-item a.news-carousel-card:hover .news-carousel-card-image .image-inner img,
+    .news-carousel-item a.news-carousel-card:hover .news-carousel-card-image .image-inner picture img {
+      transform: scale(1.1);
+    }
+
+    .news-carousel-item .news-carousel-card-image {
+      flex-shrink: 0;
+      height: 200px;
+      overflow: hidden;
+      position: relative;
+      width: 100%;
+    }
+
+    .news-carousel-item .news-carousel-card-image .image {
+      height: 100%;
+      margin-top: 0;
+      width: 100%;
+    }
+
+    .news-carousel-item .news-carousel-card-image .image .image-inner {
+      height: 100%;
+    }
+
+    .news-carousel-item .news-carousel-card-image .image img,
+    .news-carousel-item .news-carousel-card-image .image picture img {
+      height: 100%;
+      object-fit: cover;
+      transform: scale(1.08209);
+      transition: transform 0.3s ease-out;
+      width: 100%;
+    }
+
+    .news-carousel-item .news-carousel-card-body {
+      display: flex;
+      flex-direction: column;
+      flex: 1 1 auto;
+      padding: 20px;
+    }
+
+    .news-carousel-item .news-carousel-card-body .news-carousel-card-title {
+      color: var(--brand-primary);
+      margin-top: 0;
+    }
+
+    .news-carousel-item .news-carousel-card-body .news-carousel-card-title .heading-inner {
+      color: var(--brand-primary);
+      font-weight: var(--font-weight-light);
+    }
+
+    .news-carousel-item .news-carousel-card-body .news-carousel-card-date {
+      margin-top: 8px;
+    }
+
+    .news-carousel-item .news-carousel-card-body .news-carousel-card-date .simple-text-content {
+      color: var(--brand-text-muted);
+      font-weight: 700;
+    }
+
+    .news-carousel-item .news-carousel-card-body .news-carousel-card-lead {
+      margin-top: 12px;
+    }
+
+    .news-carousel-item .news-carousel-card-body .news-carousel-card-lead .simple-text-content {
+      color: var(--brand-text);
+    }
+  }
+</style>

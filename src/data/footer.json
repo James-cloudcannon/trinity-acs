@@ -1,0 +1,35 @@
+{
+  "logoSource": "/images/header-crest.svg",
+  "logoAlternateSource": "/images/header-crest.svg",
+  "logoAlt": "Trinity Catholic College",
+  "secondaryLogoSource": "/images/kav-logo-footer.png",
+  "secondaryLogoAlt": "Kavanagh Logo",
+  "schoolName": "Trinity Catholic College",
+  "address": [
+    "Physical Address: (couriers to this address) 340 Rattray Street Dunedin, NZ, 9016",
+    "Postal Address: (mail to this address) PO Box 737, Dunedin 9054, NZ"
+  ],
+  "email": "admin@trinity.school.nz",
+  "phone": "03 477 3408",
+  "links": [
+    { "name": "Edge Caregiver Portal", "path": "https://parent.edgelearning.co.nz/", "external": true },
+    { "name": "Parent/Teacher Interviews", "path": "https://www.parentinterviews.co.nz/", "external": true },
+    { "name": "Google Classroom", "path": "https://classroom.google.com", "external": true },
+    { "name": "Webmail", "path": "https://gmail.com/", "external": true },
+    { "name": "Contact", "path": "/contact/", "external": false }
+  ],
+  "quickLinksHeading": "Quick Links",
+  "subFooterLinks": [
+    { "name": "Privacy Policy", "path": "/privacy-policy/" },
+    { "name": "Terms and Conditions", "path": "/terms-and-conditions/" }
+  ],
+  "socials": [
+    {
+      "icon": "social/facebook",
+      "link": "https://www.facebook.com/TrinityCatholicCollegeNZ/"
+    }
+  ],
+  "footerText": "Copyright 2026 Trinity Catholic College - All rights reserved",
+  "credit": "Web Design by Firebrand",
+  "creditHref": "https://www.firebrand.nz/"
+}

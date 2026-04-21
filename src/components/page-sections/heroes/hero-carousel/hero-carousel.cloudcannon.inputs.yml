@@ -1,0 +1,60 @@
+autoPlay:
+  type: switch
+  comment: Auto-advance slides every few seconds.
+autoPlayDelay:
+  type: number
+  comment: Seconds between auto-advances (only applies when autoPlay is on).
+loop:
+  type: switch
+  comment: Loop back to the first slide after the last.
+showIndicators:
+  type: switch
+  comment: Show dot indicators below the carousel.
+showArrows:
+  type: switch
+  comment: Show previous/next arrow controls.
+slides:
+  type: array
+  label: Slides
+  comment: Full-bleed hero slides rendered inside the carousel.
+  options:
+    structures:
+      - label: Hero carousel slide
+        icon: view_carousel
+        value:
+          _component: page-sections/heroes/hero-carousel/hero-carousel-slide
+          heading: Trinity Catholic College
+          subtitle: Education for everyone
+          imageSource: /src/assets/images/uploads/Kavanagh-College-March-2021-005.jpg
+          imageAlt: Trinity Catholic College students
+          priority: false
+        preview:
+          text:
+            - key: heading
+            - Hero carousel slide
+          subtext:
+            - key: subtitle
+            - Add subtitle text
+        _inputs:
+          heading:
+            type: text
+            comment: Large h1 headline shown over the gradient.
+          subtitle:
+            type: textarea
+            comment: Supporting caption shown beneath the heading.
+          imageSource:
+            type: image
+            comment: Full-bleed background photo for this slide.
+            options:
+              paths:
+                uploads: src/assets/images
+                static: ""
+              resize_style: contain
+              width: 2560
+              height: 1440
+          imageAlt:
+            type: text
+            comment: Alt text describing the slide image for accessibility.
+          priority:
+            type: switch
+            comment: Load this image eagerly (set true for the first slide / above-the-fold images).

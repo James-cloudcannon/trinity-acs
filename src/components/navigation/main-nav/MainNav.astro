@@ -1,0 +1,529 @@
+---
+import Icon from "@core-elements/icon/Icon.astro";
+import Image from "@core-elements/image/Image.astro";
+
+type NavChild = { name: string; path: string };
+type NavGroup = { name: string; path: string; children?: NavChild[] };
+type TopLink = { name: string; path: string };
+
+const {
+  logoSource = "/images/header-crest.svg",
+  logoAlternateSource,
+  logoAlt = "Trinity Catholic College",
+  navData = [] as NavGroup[],
+  topLinks = [] as TopLink[],
+  facebookHref = "https://www.facebook.com/TrinityCatholicCollegeNZ/",
+  searchAction = "/search/",
+  class: className,
+  useDefaultEditableBinding: _useDefaultEditableBinding = false,
+  _component,
+  ...htmlAttributes
+} = Astro.props;
+---
+
+<header
+  class:list={["trinity-header", className]}
+  {...htmlAttributes}
+>
+  <button
+    type="button"
+    class="trinity-header__menu-trigger"
+    data-nav-trigger="menu"
+    aria-controls="trinity-primary-nav"
+    aria-expanded="false"
+    aria-label="Open menu"
+  >
+    <span class="trinity-header__menu-text">Menu</span>
+    <span class="trinity-header__hamburger" aria-hidden="true"></span>
+    <span class="trinity-header__close" aria-hidden="true">
+      <Icon name="x-mark" useDefaultEditableBinding={false} />
+    </span>
+  </button>
+
+  <a
+    href="/"
+    class="trinity-header__logo"
+    aria-label={logoAlt}
+  >
+    <Image
+      source={logoSource}
+      alternateSource={logoAlternateSource}
+      alt={logoAlt}
+      widths={[400, 800, 1200]}
+      sizes="(max-width: 768px) 240px, 580px"
+      useDefaultEditableBinding={false}
+    />
+  </a>
+
+  <div class="trinity-header__right">
+    <a
+      href={facebookHref}
+      class="trinity-header__icon-link"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Trinity Catholic College on Facebook"
+    >
+      <Icon name="social/facebook" useDefaultEditableBinding={false} />
+    </a>
+
+    <button
+      type="button"
+      class="trinity-header__icon-link"
+      data-nav-trigger="search"
+      aria-controls="trinity-search-panel"
+      aria-expanded="false"
+      aria-label="Open search"
+    >
+      <Icon name="magnifying-glass" useDefaultEditableBinding={false} />
+    </button>
+  </div>
+</header>
+
+<nav
+  id="trinity-primary-nav"
+  class="trinity-primary-nav"
+  data-nav-panel="menu"
+  aria-hidden="true"
+>
+  <div class="trinity-primary-nav__inner">
+    <div class="trinity-primary-nav__sidebar">
+      <ul>
+        {
+          topLinks.map((link) => (
+            <li><a href={link.path}>{link.name}</a></li>
+          ))
+        }
+      </ul>
+    </div>
+    <div class="trinity-primary-nav__groups">
+      {
+        navData.map((group) => (
+          <div class="trinity-primary-nav__group">
+            <a href={group.path} class="trinity-primary-nav__group-head">
+              {group.name}
+            </a>
+            {group.children && group.children.length > 0 && (
+              <ul>
+                {group.children.map((child) => (
+                  <li><a href={child.path}>{child.name}</a></li>
+                ))}
+              </ul>
+            )}
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</nav>
+
+<form
+  id="trinity-search-panel"
+  method="get"
+  action={searchAction}
+  class="trinity-search"
+  data-nav-panel="search"
+  aria-hidden="true"
+>
+  <div class="trinity-search__inner">
+    <input
+      type="search"
+      name="q"
+      placeholder="Search..."
+      autocomplete="off"
+      class="trinity-search__input"
+    />
+    <button
+      type="button"
+      class="trinity-search__close"
+      data-nav-trigger="search"
+      aria-label="Close search"
+    >
+      <Icon name="x-mark" useDefaultEditableBinding={false} />
+    </button>
+  </div>
+</form>
+
+<div
+  class="trinity-nav-overlay"
+  data-nav-overlay
+  aria-hidden="true"
+></div>
+
+<script>
+  function initTrinityNav() {
+    if (document.documentElement.dataset.trinityNavInit === "1") return;
+    document.documentElement.dataset.trinityNavInit = "1";
+
+    const body = document.body;
+    const overlay = document.querySelector("[data-nav-overlay]");
+    const panels = {
+      menu: document.querySelector('[data-nav-panel="menu"]') as HTMLElement | null,
+      search: document.querySelector('[data-nav-panel="search"]') as HTMLElement | null,
+    };
+
+    function setOpen(panelName: "menu" | "search" | null) {
+      (Object.keys(panels) as Array<"menu" | "search">).forEach((key) => {
+        const isTarget = key === panelName;
+        const panel = panels[key];
+        if (!panel) return;
+        panel.classList.toggle("is-open", isTarget);
+        panel.setAttribute("aria-hidden", isTarget ? "false" : "true");
+        document
+          .querySelectorAll(`[data-nav-trigger="${key}"]`)
+          .forEach((trigger) => trigger.setAttribute("aria-expanded", String(isTarget)));
+      });
+      const anyOpen = panelName !== null;
+      body.classList.toggle("trinity-nav-locked", anyOpen);
+      overlay?.classList.toggle("is-open", anyOpen);
+      overlay?.setAttribute("aria-hidden", anyOpen ? "false" : "true");
+      if (panelName === "search") {
+        const input = panels.search?.querySelector<HTMLInputElement>(".trinity-search__input");
+        window.setTimeout(() => input?.focus(), 120);
+      }
+    }
+
+    function currentOpen(): "menu" | "search" | null {
+      if (panels.menu?.classList.contains("is-open")) return "menu";
+      if (panels.search?.classList.contains("is-open")) return "search";
+      return null;
+    }
+
+    document.querySelectorAll<HTMLElement>("[data-nav-trigger]").forEach((trigger) => {
+      trigger.addEventListener("click", (event) => {
+        event.preventDefault();
+        const target = trigger.dataset.navTrigger as "menu" | "search";
+        setOpen(currentOpen() === target ? null : target);
+      });
+    });
+
+    overlay?.addEventListener("click", () => setOpen(null));
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && currentOpen()) setOpen(null);
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", () => initTrinityNav());
+  document.addEventListener("astro:page-load", () => initTrinityNav());
+</script>
+
+<style is:global>
+  @layer page-sections {
+    .trinity-header {
+      align-items: center;
+      background: var(--brand-primary, #8a1538);
+      display: flex;
+      height: 6rem;
+      justify-content: space-between;
+      left: 0;
+      padding-inline: 0;
+      position: fixed;
+      right: 0;
+      top: 0;
+      z-index: 40;
+    }
+
+    .trinity-header__menu-trigger {
+      align-items: center;
+      background: #710f2c;
+      border: 0;
+      color: #fff;
+      cursor: pointer;
+      display: inline-flex;
+      flex: 0 0 auto;
+      font-family: inherit;
+      font-size: 1rem;
+      font-weight: 700;
+      gap: 1.25rem;
+      height: 100%;
+      padding-inline: 1.8rem;
+      position: relative;
+      text-transform: uppercase;
+    }
+
+    .trinity-header__menu-text { color: #fff; }
+
+    .trinity-header__hamburger {
+      background: #fff;
+      display: inline-block;
+      height: 2px;
+      position: relative;
+      width: 18px;
+    }
+
+    .trinity-header__hamburger::before,
+    .trinity-header__hamburger::after {
+      background: #fff;
+      content: "";
+      height: 2px;
+      left: 0;
+      position: absolute;
+      width: 18px;
+      transition: transform 200ms ease, top 200ms ease;
+    }
+
+    .trinity-header__hamburger::before { top: -5px; }
+    .trinity-header__hamburger::after { top: 5px; }
+
+    .trinity-header__close {
+      align-items: center;
+      color: #fff;
+      display: none;
+      height: 1.25rem;
+      width: 1.25rem;
+    }
+
+    .trinity-header__menu-trigger[aria-expanded="true"] .trinity-header__hamburger { background: transparent; }
+    .trinity-header__menu-trigger[aria-expanded="true"] .trinity-header__hamburger::before { top: 0; transform: rotate(45deg); }
+    .trinity-header__menu-trigger[aria-expanded="true"] .trinity-header__hamburger::after { top: 0; transform: rotate(-45deg); }
+
+    .trinity-header__logo {
+      align-items: center;
+      display: inline-flex;
+      flex: 0 0 auto;
+      height: 100%;
+      position: absolute;
+      left: 50%;
+      top: 0;
+      transform: translateX(-50%);
+    }
+
+    .trinity-header__logo > .image { width: 36.25rem; max-width: 100%; }
+    .trinity-header__logo > .image > .image-inner,
+    .trinity-header__logo .image-primary,
+    .trinity-header__logo picture {
+      display: block;
+    }
+
+    .trinity-header__logo img {
+      display: block;
+      height: auto;
+      max-height: 8rem;
+      max-width: 100%;
+      width: 100%;
+    }
+
+    .trinity-header__right {
+      align-items: center;
+      display: inline-flex;
+      flex: 0 0 auto;
+      gap: 0;
+      height: 100%;
+      background: #710f2c;
+
+      button {
+        background: #5b0b23;
+      }
+    }
+
+    .trinity-header__icon-link {
+      align-items: center;
+      background: #710f2c;
+      border: 0;
+      color: #fff;
+      cursor: pointer;
+      display: inline-flex;
+      font-size: 1.125rem;
+      height: 100%;
+      justify-content: center;
+      padding-inline: 1.5rem;
+      transition: opacity 200ms ease;
+    }
+
+    .trinity-header__icon-link:hover,
+    .trinity-header__icon-link:focus-visible,
+    .trinity-header__menu-trigger:hover,
+    .trinity-header__menu-trigger:focus-visible {
+      opacity: 0.8;
+      outline: none;
+    }
+
+    .trinity-header__icon-link svg {
+      height: 1.25rem;
+      width: 1.25rem;
+    }
+
+    .trinity-primary-nav {
+      background: var(--brand-primary-dark, #710f2c);
+      color: #fff;
+      inset: 0;
+      opacity: 0;
+      overflow-y: auto;
+      padding: 9rem 3.75rem 3.75rem;
+      pointer-events: none;
+      position: fixed;
+      transition: opacity 320ms ease, visibility 0s linear 320ms;
+      visibility: hidden;
+      z-index: 30;
+    }
+
+    .trinity-primary-nav.is-open {
+      opacity: 1;
+      pointer-events: auto;
+      transition: opacity 320ms ease, visibility 0s linear 0s;
+      visibility: visible;
+    }
+
+    .trinity-primary-nav__inner {
+      display: grid;
+      gap: 2.5rem;
+      grid-template-columns: 1fr;
+      margin-inline: auto;
+      max-width: 90rem;
+    }
+
+    @media (min-width: 900px) {
+      .trinity-primary-nav__inner {
+        grid-template-columns: minmax(13rem, 1fr) 4fr;
+        gap: 3rem;
+      }
+    }
+
+    .trinity-primary-nav__sidebar ul,
+    .trinity-primary-nav__group ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .trinity-primary-nav__sidebar li,
+    .trinity-primary-nav__group li {
+      margin-block: 0.75rem;
+    }
+
+    .trinity-primary-nav__sidebar a {
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+
+    .trinity-primary-nav__groups {
+      display: grid;
+      gap: 2rem;
+      grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+    }
+
+    .trinity-primary-nav__group-head {
+      color: #fff;
+      display: block;
+      font-size: 1rem;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      margin-bottom: 1rem;
+      padding-bottom: 0;
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+
+    .trinity-primary-nav__group ul a {
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 400;
+      text-decoration: none;
+    }
+
+    .trinity-search {
+      background: rgba(3, 38, 61, 0.94);
+      backdrop-filter: blur(6px);
+      inset: 0;
+      opacity: 0;
+      pointer-events: none;
+      position: fixed;
+      transition: opacity 240ms ease, visibility 0s linear 240ms;
+      visibility: hidden;
+      z-index: 35;
+    }
+
+    .trinity-search.is-open {
+      opacity: 1;
+      pointer-events: auto;
+      transition: opacity 240ms ease, visibility 0s linear 0s;
+      visibility: visible;
+    }
+
+    .trinity-search__inner {
+      align-items: center;
+      display: flex;
+      gap: 1rem;
+      height: 100%;
+      margin-inline: auto;
+      max-width: 56rem;
+      padding-inline: 2rem;
+    }
+
+    .trinity-search__input {
+      background: transparent;
+      border: 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.55);
+      color: #fff;
+      flex: 1;
+      font-family: inherit;
+      font-size: 1.5rem;
+      outline: none;
+      padding: 0.75rem 0;
+    }
+
+    .trinity-search__input::placeholder { color: rgba(255, 255, 255, 0.6); }
+
+    .trinity-search__close {
+      align-items: center;
+      background: transparent;
+      border: 0;
+      color: #fff;
+      cursor: pointer;
+      display: inline-flex;
+      height: 2.5rem;
+      justify-content: center;
+      transition: opacity 160ms ease;
+      width: 2.5rem;
+    }
+
+    .trinity-search__close:hover,
+    .trinity-search__close:focus-visible { opacity: 0.8; outline: none; }
+
+    .trinity-nav-overlay {
+      background: rgba(0, 0, 0, 0.35);
+      inset: 0;
+      opacity: 0;
+      pointer-events: none;
+      position: fixed;
+      transition: opacity 200ms ease;
+      z-index: 25;
+    }
+
+    .trinity-nav-overlay.is-open { opacity: 1; pointer-events: auto; }
+
+    body.trinity-nav-locked { overflow: hidden; }
+
+    @media (max-width: 767px) {
+      .trinity-header { height: 4.5rem; }
+      .trinity-header__menu-trigger { padding-inline: 1rem; gap: 0.75rem; }
+      .trinity-header__icon-link { padding-inline: 1rem; }
+      .trinity-header__menu-text { display: none; }
+      .trinity-header__logo > .image { width: 11rem; }
+      .trinity-primary-nav { padding: 6rem 1.5rem 3rem; }
+    }
+  }
+
+  @layer overrides {
+    .trinity-primary-nav a:hover,
+    .trinity-primary-nav a:focus-visible {
+      opacity: 0.8;
+      outline: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .trinity-primary-nav,
+    .trinity-search,
+    .trinity-nav-overlay,
+    .trinity-header__hamburger,
+    .trinity-header__hamburger::before,
+    .trinity-header__hamburger::after {
+      transition: none;
+    }
+  }
+</style>

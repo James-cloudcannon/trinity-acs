@@ -1,0 +1,249 @@
+---
+import Heading from "@core-elements/heading/Heading.astro";
+import Image from "@core-elements/image/Image.astro";
+
+type FooterLink = { name: string; path: string; external?: boolean };
+type SubLink = { name: string; path: string };
+
+const {
+  schoolName = "",
+  address = [] as string[],
+  email = "",
+  phone = "",
+  secondaryLogoSource,
+  secondaryLogoAlt = "",
+  quickLinksHeading = "Quick Links",
+  links = [] as FooterLink[],
+  subFooterLinks = [] as SubLink[],
+  footerText = "",
+  credit = "",
+  creditHref = "",
+  class: className,
+  useDefaultEditableBinding: _useDefaultEditableBinding = false,
+  _component,
+  ...htmlAttributes
+} = Astro.props;
+
+const phoneTel = phone ? `tel:${phone.replace(/\s+/g, "")}` : "";
+---
+
+<footer
+  class:list={["trinity-footer", className]}
+  {...htmlAttributes}
+>
+  <div class="trinity-footer__inner">
+    <div class="trinity-footer__col trinity-footer__contact">
+      {schoolName && (
+        <Heading
+          level="h2"
+          size="md"
+          text={schoolName}
+          useDefaultEditableBinding={false}
+        />
+      )}
+      <ul>
+        {address.map((line) => <li>{line}</li>)}
+        {email && (
+          <li><a href={`mailto:${email}`}>{email}</a></li>
+        )}
+        {phone && (
+          <li><a href={phoneTel}>{phone}</a></li>
+        )}
+      </ul>
+    </div>
+
+    {secondaryLogoSource && (
+      <div class="trinity-footer__col trinity-footer__logo">
+        <Image
+          source={secondaryLogoSource}
+          alt={secondaryLogoAlt}
+          widths={[240, 480]}
+          sizes="240px"
+          useDefaultEditableBinding={false}
+        />
+      </div>
+    )}
+
+    <div class="trinity-footer__col trinity-footer__links">
+      {quickLinksHeading && (
+        <Heading
+          level="h2"
+          size="md"
+          text={quickLinksHeading}
+          alignmentHorizontal="end"
+          useDefaultEditableBinding={false}
+        />
+      )}
+      <ul>
+        {
+          links.map((link) => (
+            <li>
+              <a
+                href={link.path}
+                target={link.external ? "_blank" : undefined}
+                rel={link.external ? "noopener noreferrer" : undefined}
+              >
+                {link.name}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+
+  <section class="trinity-footer__sub">
+    <div class="trinity-footer__sub-inner">
+      <p class="trinity-footer__sub-text">
+        {
+          subFooterLinks.map((link, i) => (
+            <>
+              <a href={link.path}>{link.name}</a>
+              {i < subFooterLinks.length - 1 && <span class="trinity-footer__sub-sep"> | </span>}
+            </>
+          ))
+        }
+        {subFooterLinks.length > 0 && footerText && (
+          <span class="trinity-footer__sub-sep"> | </span>
+        )}
+        {footerText}
+      </p>
+      {credit && (
+        <p class="trinity-footer__credit">
+          {creditHref
+            ? (<a href={creditHref} target="_blank" rel="noopener noreferrer">{credit}</a>)
+            : credit}
+        </p>
+      )}
+    </div>
+  </section>
+</footer>
+
+<style is:global>
+  @layer page-sections {
+    .trinity-footer {
+      background: var(--color-bg-inverse, #03263d);
+      color: rgb(204, 204, 204);
+    }
+
+    .trinity-footer__inner {
+      display: grid;
+      gap: 2rem;
+      grid-template-columns: 1fr;
+      margin-inline: auto;
+      max-width: 75rem;
+      padding: 3.125rem 1.5rem;
+    }
+
+    @media (min-width: 768px) {
+      .trinity-footer__inner {
+        grid-template-columns: 1fr 1fr 1fr;
+      }
+    }
+
+    .trinity-footer__col h2,
+    .trinity-footer__col .heading .heading-inner {
+      color: #fff !important;
+      font-size: 1.4375rem;
+      font-weight: 600;
+      margin: 0 0 1rem;
+    }
+
+    .trinity-footer__col ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .trinity-footer__col li {
+      color: rgb(204, 204, 204);
+      font-size: 1rem;
+      line-height: 1.6;
+      margin-block: 0.25rem;
+    }
+
+    .trinity-footer__logo {
+      align-items: center;
+      display: none;
+      justify-content: center;
+    }
+
+    @media (min-width: 768px) {
+      .trinity-footer__logo {
+        display: flex;
+      }
+    }
+
+    .trinity-footer__logo > .image,
+    .trinity-footer__logo > .image > .image-inner,
+    .trinity-footer__logo picture {
+      display: block;
+    }
+
+    .trinity-footer__logo img {
+      display: block;
+      height: auto;
+      max-height: 12rem;
+      max-width: 100%;
+      width: auto;
+    }
+
+    .trinity-footer__links { text-align: left; }
+
+    @media (min-width: 768px) {
+      .trinity-footer__links { text-align: right; }
+    }
+
+    .trinity-footer__sub {
+      background: var(--color-bg-inverse-darker, #022135);
+      color: rgba(255, 255, 255, 0.75);
+    }
+
+    .trinity-footer__sub-inner {
+      align-items: center;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: space-between;
+      margin-inline: auto;
+      max-width: 75rem;
+      padding: 1rem 1.5rem;
+    }
+
+    .trinity-footer__sub-text,
+    .trinity-footer__credit {
+      color: #fff;
+      font-size: 0.875rem;
+      line-height: 1.5;
+      margin: 0;
+      text-align: center;
+    }
+
+    @media (min-width: 768px) {
+      .trinity-footer__sub-text { text-align: left; }
+      .trinity-footer__credit { text-align: right; }
+    }
+
+    .trinity-footer__sub-sep {
+      color: rgba(255, 255, 255, 0.5);
+      padding-inline: 0.35rem;
+    }
+  }
+
+  @layer overrides {
+    .trinity-footer__col a,
+    .trinity-footer__sub a {
+      color: #fff;
+      text-decoration: none;
+      transition: opacity 160ms ease;
+    }
+
+    .trinity-footer__col a:hover,
+    .trinity-footer__col a:focus-visible,
+    .trinity-footer__sub a:hover,
+    .trinity-footer__sub a:focus-visible {
+      opacity: 0.75;
+      outline: none;
+    }
+  }
+</style>

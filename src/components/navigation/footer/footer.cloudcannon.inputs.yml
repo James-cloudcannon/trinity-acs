@@ -1,0 +1,94 @@
+schoolName:
+  type: text
+  comment: "School name heading in the contact column."
+address:
+  type: array
+  comment: "Address lines (physical, postal, etc.)."
+  options:
+    structures: _structures.addressLine
+email:
+  type: text
+  comment: "Contact email address (rendered as mailto link)."
+phone:
+  type: text
+  comment: "Contact phone number (rendered as tel link)."
+secondaryLogoSource:
+  type: image
+  comment: "Secondary logo (e.g. Kavanagh). Shown in center column on medium+ screens."
+  options:
+    resize_style: contain
+    width: 960
+    height: 480
+secondaryLogoAlt:
+  type: text
+  comment: "Alt text for the secondary logo."
+quickLinksHeading:
+  type: text
+  comment: "Heading for the right column of links."
+links:
+  type: array
+  comment: "Right-column links (portals, external services, internal pages)."
+  options:
+    structures: _structures.linkItems
+subFooterLinks:
+  type: array
+  comment: "Sub-footer legal links (Privacy, Terms, etc.)."
+  options:
+    structures: _structures.subLinkItems
+footerText:
+  type: text
+  comment: "Copyright / legal text shown in the sub-footer."
+credit:
+  type: text
+  comment: "Attribution/credit text (e.g. web design credit)."
+creditHref:
+  type: url
+  comment: "Optional link for the credit text."
+  options:
+    hide_link_to_file: true
+    hide_link_to_email_address: true
+    hide_link_to_telephone: true
+_structures:
+  addressLine:
+    values:
+      - label: Address line
+        icon: map
+        value: ""
+  linkItems:
+    values:
+      - label: Footer Link
+        icon: link
+        value:
+          name: ""
+          path: ""
+          external: false
+        _inputs:
+          name:
+            type: text
+            comment: "Display text."
+          path:
+            type: url
+            comment: "URL path."
+            options:
+              hide_link_to_file: true
+              hide_link_to_email_address: true
+              hide_link_to_telephone: true
+          external:
+            type: switch
+            comment: "Open in a new tab?"
+  subLinkItems:
+    values:
+      - label: Sub-footer Link
+        icon: link
+        value:
+          name: ""
+          path: ""
+        _inputs:
+          name:
+            type: text
+          path:
+            type: url
+            options:
+              hide_link_to_file: true
+              hide_link_to_email_address: true
+              hide_link_to_telephone: true

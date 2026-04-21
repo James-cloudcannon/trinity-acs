@@ -1,0 +1,215 @@
+---
+import CustomSection from "@builders/custom-section/CustomSection.astro";
+import Heading from "@core-elements/heading/Heading.astro";
+import Form from "@forms/form/Form.astro";
+import Input from "@forms/input/Input.astro";
+import Submit from "@forms/submit/Submit.astro";
+
+const {
+  heading = "",
+  formAction = "",
+  nameLabel = "Name",
+  namePlaceholder = "Name",
+  nameFieldName = "NAME",
+  emailLabel = "Email",
+  emailPlaceholder = "Email",
+  emailFieldName = "EMAIL",
+  submitText = "Subscribe",
+  sectionLabel,
+  maxContentWidth = "xl",
+  paddingHorizontal = "lg",
+  paddingVertical = "4xl",
+  colorScheme = "dark",
+  backgroundColor,
+  background,
+  class: className,
+  useDefaultEditableBinding = false,
+  _component,
+  ...htmlAttributes
+} = Astro.props;
+---
+
+<CustomSection
+  class:list={["newsletter-subscribe-form", className]}
+  label={sectionLabel}
+  maxContentWidth={maxContentWidth}
+  paddingHorizontal={paddingHorizontal}
+  paddingVertical={paddingVertical}
+  colorScheme={colorScheme}
+  backgroundColor={backgroundColor}
+  background={background}
+  useDefaultEditableBinding={useDefaultEditableBinding}
+  {...htmlAttributes}
+>
+  <Heading
+    class="newsletter-subscribe-form__heading"
+    level="h2"
+    size="md"
+    alignmentHorizontal="center"
+    data-prop="heading"
+    text={heading}
+  />
+
+  <Form
+    class="newsletter-subscribe-form__form"
+    action={formAction}
+    target="_blank"
+    _component="building-blocks/forms/form"
+  >
+    <div class="newsletter-subscribe-form__fields">
+      <Input
+        class="newsletter-subscribe-form__field"
+        type="text"
+        name={nameFieldName}
+        label={nameLabel}
+        placeholder={namePlaceholder}
+      />
+      <Input
+        class="newsletter-subscribe-form__field"
+        type="email"
+        name={emailFieldName}
+        label={emailLabel}
+        placeholder={emailPlaceholder}
+      />
+      <Submit
+        class="newsletter-subscribe-form__submit"
+        text={submitText}
+        variant="tertiary"
+        size="md"
+        data-prop="submitText"
+      />
+    </div>
+  </Form>
+</CustomSection>
+
+<style>
+  @layer page-sections {
+    .newsletter-subscribe-form {
+      animation: newsletter-subscribe-form-fadeIn 1s ease both;
+    }
+
+    @keyframes newsletter-subscribe-form-fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .newsletter-subscribe-form {
+        animation: none;
+      }
+    }
+  }
+
+  @layer overrides {
+    .newsletter-subscribe-form :global(.outer-content) {
+      background-color: var(--brand-maroon, rgb(138, 21, 56));
+    }
+
+    /* Maroon parallax-overlay mirrors the source's .parallax-overlay div.
+       CustomSection's .background-image is z-index:10; place overlay at 11,
+       and push content to z-index:12 so it sits above the tint. */
+    .newsletter-subscribe-form :global(.outer-content)::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-color: rgb(138, 21, 56);
+      opacity: 0.65;
+      z-index: 11;
+      pointer-events: none;
+    }
+
+    .newsletter-subscribe-form :global(.outer-content > .content) {
+      z-index: 12 !important;
+    }
+
+    .newsletter-subscribe-form :global(.newsletter-subscribe-form__heading .heading-inner) {
+      color: #fff !important;
+      font-weight: 600 !important;
+    }
+
+    .newsletter-subscribe-form :global(.newsletter-subscribe-form__form) {
+      margin-top: var(--spacing-lg) !important;
+      width: 100%;
+    }
+
+    .newsletter-subscribe-form :global(.newsletter-subscribe-form__fields) {
+      display: grid;
+      grid-template-columns: 1fr 1fr auto;
+      gap: var(--spacing-md);
+      align-items: stretch;
+      max-width: 1140px;
+      margin-inline: auto;
+    }
+
+    .newsletter-subscribe-form :global(.newsletter-subscribe-form__field) {
+      margin: 0 !important;
+    }
+
+    .newsletter-subscribe-form :global(.newsletter-subscribe-form__field .label) {
+      position: absolute !important;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .newsletter-subscribe-form :global(.newsletter-subscribe-form__field .field) {
+      background-color: #fff !important;
+      border: 1px solid #ced4da !important;
+      border-radius: 0 !important;
+      color: rgb(3, 38, 61) !important;
+      font-size: 1rem !important;
+      padding-block: 0.5rem !important;
+      padding-inline: 0.75rem !important;
+      height: 38px;
+      transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out !important;
+    }
+
+    .newsletter-subscribe-form :global(.newsletter-subscribe-form__field .field:focus) {
+      border-color: rgb(3, 38, 61) !important;
+      box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25) !important;
+      outline: none !important;
+    }
+
+    .newsletter-subscribe-form :global(.newsletter-subscribe-form__submit) {
+      margin-top: 0 !important;
+      display: flex;
+      align-items: stretch;
+    }
+
+    .newsletter-subscribe-form :global(.newsletter-subscribe-form__submit .button-inner) {
+      background-color: var(--brand-navy, rgb(3, 38, 61)) !important;
+      border-color: var(--brand-navy, rgb(3, 38, 61)) !important;
+      color: #fff !important;
+      border-radius: 0 !important;
+      font-size: 0.875rem !important;
+      font-weight: 600 !important;
+      text-transform: uppercase !important;
+      letter-spacing: 0.03em !important;
+      padding-block: 0.5rem !important;
+      padding-inline: 1.5rem !important;
+      height: 38px;
+      min-width: 160px;
+      justify-content: center;
+    }
+
+    .newsletter-subscribe-form :global(.newsletter-subscribe-form__submit .button-inner:hover) {
+      background-color: var(--brand-navy-alt, rgb(5, 55, 89)) !important;
+      border-color: var(--brand-navy-alt, rgb(5, 55, 89)) !important;
+    }
+
+    @media (width < 768px) {
+      .newsletter-subscribe-form :global(.newsletter-subscribe-form__fields) {
+        grid-template-columns: 1fr;
+      }
+    }
+  }
+</style>

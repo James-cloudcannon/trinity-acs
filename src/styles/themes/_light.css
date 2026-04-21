@@ -1,0 +1,39 @@
+/* Light theme — Trinity Catholic College */
+[data-theme="light"] {
+  color-scheme: light;
+
+  --color-brand: var(--brand-primary);
+  --color-brand-muted: var(--brand-primary-dark);
+  --color-brand-subtle: var(--brand-primary-darker);
+  --color-brand-on: var(--gray-0);
+
+  --color-text: var(--brand-text);
+  --color-text-strong: var(--brand-black);
+  --color-text-muted: var(--brand-text-muted);
+  --color-text-on-muted: var(--brand-text);
+  --color-text-on-brand: var(--gray-0);
+  --color-text-inverse: var(--gray-0);
+  --color-link: var(--brand-primary);
+  --color-link-hover: var(--brand-primary-dark);
+
+  --color-bg: var(--brand-background);
+  --color-bg-surface: var(--brand-surface-grey);
+  --color-bg-muted: var(--brand-surface-grey);
+  --color-bg-accent: var(--brand-navy);
+  --color-bg-highlight: var(--brand-navy-overlay);
+  --color-bg-brand: var(--brand-primary);
+  --color-bg-brand-muted: var(--brand-primary-dark);
+  --color-bg-inverse: var(--brand-navy);
+
+  --color-border: var(--brand-border);
+  --color-border-inputs: var(--brand-border);
+  --color-border-strong: var(--brand-text);
+  --color-border-subtle: var(--brand-surface-grey);
+
+  --color-state-hover: rgba(138, 21, 56, 0.08);
+  --color-state-active: rgba(138, 21, 56, 0.14);
+  --color-overlay: var(--brand-navy-overlay);
+
+  --color-focus-ring: rgba(138, 21, 56, 0.4);
+  --color-error: #f00;
+}

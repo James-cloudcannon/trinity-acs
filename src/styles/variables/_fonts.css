@@ -1,0 +1,58 @@
+/* Font families: `--font-body` and `--font-headings` are defined by Astro's <Font /> (see `site-fonts.mjs`).
+ * Trinity Catholic College:
+ *   - Headings: Open Sans (400, 700)
+ *   - Body: Open Sans with -apple-system/system-ui fallback stack
+ */
+
+:where(:root) {
+  --font-mono: menlo, consolas, monaco, adwaita mono, liberation mono, lucida console, monospace;
+
+  --font-family-heading: var(--font-headings), "Open Sans", -apple-system, system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-family-body: var(--font-body), "Open Sans", -apple-system, system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-md: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.375rem;
+  --font-size-2xl: 1.625rem;
+  --font-size-3xl: 1.875rem;
+  --font-size-4xl: 2.25rem;
+  --font-size-5xl: 2.625rem;
+
+  /* Trinity heading scale: h3 = 1.375rem (22px), h2 = 2.375rem (38px), h1 = 2.75rem (44px) */
+  --font-size-heading-xs: 1.125rem;
+  --font-size-heading-sm: 1.375rem;
+  --font-size-heading-md: 1.75rem;
+  --font-size-heading-lg: 2.375rem;
+  --font-size-heading-xl: 2.75rem;
+  --font-size-heading-2xl: 3.5rem;
+  --font-size-heading-3xl: 4.25rem;
+  --font-size-heading-4xl: 5rem;
+  --font-size-heading-5xl: 5.75rem;
+
+  --font-weight-light: 200;
+  --font-weight-normal: 400;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  @media (width < 640px) {
+    --font-size-xs: 0.625rem;
+    --font-size-sm: 0.75rem;
+    --font-size-md: 0.875rem;
+    --font-size-lg: 1rem;
+    --font-size-xl: 1.125rem;
+    --font-size-2xl: 1.375rem;
+    --font-size-3xl: 1.625rem;
+    --font-size-4xl: 1.875rem;
+
+    --font-size-heading-xs: 1rem;
+    --font-size-heading-sm: 1.25rem;
+    --font-size-heading-md: 1.5rem;
+    --font-size-heading-lg: 1.875rem;
+    --font-size-heading-xl: 2.25rem;
+    --font-size-heading-2xl: 2.75rem;
+    --font-size-heading-3xl: 3.5rem;
+    --font-size-heading-4xl: 4rem;
+  }
+}

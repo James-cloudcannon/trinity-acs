@@ -1,0 +1,163 @@
+---
+import CarouselSlide from "@wrappers/carousel/CarouselSlide.astro";
+import Heading from "@core-elements/heading/Heading.astro";
+import Image from "@core-elements/image/Image.astro";
+import SimpleText from "@core-elements/simple-text/SimpleText.astro";
+
+const {
+  heading = "",
+  subtitle = "",
+  imageSource = "",
+  imageAlt = "",
+  priority = false,
+  class: className,
+  useDefaultEditableBinding: _useDefaultEditableBinding = false,
+  _component,
+  ...htmlAttributes
+} = Astro.props;
+---
+
+<CarouselSlide
+  class:list={["hero-carousel-slide", className]}
+  {...htmlAttributes}
+>
+  <div class="hero-carousel-slide-inner">
+    <Image
+      class="hero-carousel-slide-image"
+      source={imageSource}
+      alt={imageAlt || heading}
+      background={true}
+      priority={priority}
+      sizes="100vw"
+      widths={[640, 1280, 1920, 2560]}
+      positionVertical="center"
+      positionHorizontal="center"
+      data-prop-src="imageSource"
+      data-prop-alt="imageAlt"
+    />
+    <div
+      class="hero-carousel-slide-caption"
+      aria-hidden="true"
+    >
+    </div>
+    <div class="hero-carousel-slide-content">
+      <div class="hero-carousel-slide-container">
+        <Heading
+          level="h1"
+          size="xl"
+          data-prop="heading"
+        >
+          {heading}
+        </Heading>
+        <SimpleText
+          class="hero-carousel-slide-subtitle"
+          data-prop="subtitle"
+          text={subtitle}
+        />
+      </div>
+    </div>
+  </div>
+</CarouselSlide>
+
+<style is:global>
+  @layer page-sections {
+    .hero-carousel-slide {
+      position: relative;
+      width: 100%;
+    }
+
+    .hero-carousel-slide > .slide__content {
+      height: 100%;
+    }
+
+    .hero-carousel-slide-inner {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 2 / 1;
+      overflow: hidden;
+    }
+
+    .hero-carousel-slide-image {
+      position: absolute;
+      inset: 0;
+      margin-top: 0 !important;
+      z-index: 0;
+    }
+
+    .hero-carousel-slide-image .image-inner {
+      width: 100%;
+      height: 100%;
+    }
+
+    .hero-carousel-slide-image img,
+    .hero-carousel-slide-image picture {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .hero-carousel-slide-caption {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 176px;
+      pointer-events: none;
+      background-image: linear-gradient(
+        to top,
+        rgba(3, 38, 61, 0.9) 0%,
+        rgba(3, 38, 61, 0.45) 45%,
+        rgba(3, 38, 61, 0) 100%
+      );
+      z-index: 1;
+    }
+
+    .hero-carousel-slide-content {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .hero-carousel-slide-container {
+      max-width: 1140px;
+      width: 100%;
+      margin-inline: auto;
+      padding-inline: var(--spacing-lg);
+      padding-bottom: var(--spacing-lg);
+      pointer-events: auto;
+    }
+  }
+
+  @layer overrides {
+    .hero-carousel-slide-container > .heading {
+      margin-top: 0 !important;
+      margin-bottom: 0;
+      color: #ffffff;
+      text-align: left;
+    }
+
+    .hero-carousel-slide-container > .heading > .heading-inner {
+      color: #ffffff;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+
+    .hero-carousel-slide-subtitle {
+      margin-top: var(--spacing-xs) !important;
+    }
+
+    .hero-carousel-slide-subtitle > .simple-text-content {
+      color: #ffffff;
+      font-family: "Libre Baskerville", Georgia, serif;
+      font-weight: 200;
+      font-style: italic;
+      font-size: 20px;
+      line-height: 1.9;
+      text-align: left;
+    }
+  }
+</style>

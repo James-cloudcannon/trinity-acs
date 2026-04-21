@@ -1,0 +1,159 @@
+---
+import Icon from "@core-elements/icon/Icon.astro";
+import SelectOption from "./SelectOption.astro";
+
+const {
+  label,
+  name,
+  options = [],
+  placeholder,
+  required = false,
+  value,
+  iconName,
+  iconColor = "default",
+  class: className,
+  useDefaultEditableBinding: _useDefaultEditableBinding = false,
+  _component,
+  ...htmlAttributes
+} = Astro.props;
+
+const fieldId = htmlAttributes.id || `select-${crypto.randomUUID()}`;
+const hasLeadingIcon = iconName?.trim().length > 0;
+---
+
+<div class:list={["select", className]}>
+  {
+    label && (
+      <label
+        for={fieldId}
+        class="label"
+      >
+        {label}
+        {required && (
+          <span
+            class="select-required"
+            aria-label="required"
+          >
+            *
+          </span>
+        )}
+      </label>
+    )
+  }
+  <span class="field-shell">
+    {
+      hasLeadingIcon && (
+        <Icon
+          name={iconName}
+          color={iconColor}
+          size="none"
+          class="select-icon"
+          aria-hidden="true"
+          role="presentation"
+        />
+      )
+    }
+    <select
+      name={name}
+      id={fieldId}
+      required={required}
+      aria-required={required}
+      class="field"
+      {...htmlAttributes}
+    >
+      {
+        placeholder && (
+          <option
+            value=""
+            disabled
+          >
+            {placeholder}
+          </option>
+        )
+      }
+      {
+        options.length > 0 ? (
+          options.map((option) => (
+            <SelectOption
+              value={option.value}
+              label={option.label}
+              selected={option.value === value}
+            />
+          ))
+        ) : (
+          <slot />
+        )
+      }
+    </select>
+    <Icon
+      name="chevron-down"
+      size="none"
+      class="select-icon select-chevron"
+      aria-hidden="true"
+      role="presentation"
+    />
+  </span>
+</div>
+
+<style is:global>
+  @layer components {
+    .select {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-xs);
+      margin: 0;
+      margin-bottom: var(--spacing-md);
+      width: 100%;
+
+      .select-required {
+        color: var(--color-error);
+        margin-inline-end: var(--spacing-em-xs);
+      }
+    }
+
+    .select .field-shell {
+      align-items: center;
+      background-color: var(--color-bg);
+      border: 1px solid var(--color-border-inputs);
+      border-radius: var(--radius-xs);
+      display: flex;
+      gap: var(--spacing-em-sm);
+      padding-inline: var(--spacing-em-sm);
+      transition:
+        border-color var(--animation-normal) ease-in-out,
+        box-shadow var(--animation-normal) ease-in-out;
+
+      &:focus-within {
+        border-color: var(--color-brand);
+        box-shadow: 0 0 0 3px var(--color-focus-ring);
+      }
+
+      .select-icon {
+        color: var(--color-text-muted);
+        flex-shrink: 0;
+        font-size: 1.25em;
+      }
+
+      .select-chevron {
+        pointer-events: none;
+      }
+
+      > .field {
+        appearance: none;
+        background-color: transparent;
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
+        cursor: pointer;
+        flex: 1 1 auto;
+        min-width: 0;
+        padding-inline: 0;
+
+        &:focus {
+          box-shadow: none;
+          outline: none;
+        }
+      }
+    }
+  }
+</style>

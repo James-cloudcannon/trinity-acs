@@ -1,0 +1,25 @@
+heading:
+  type: text
+  comment: Main heading overlaid on the parallax header.
+subtitle:
+  type: text
+  comment: Italic subtitle paragraph below the heading.
+parallaxImageSource:
+  type: image
+  comment: Background photo that fills the parallax header strip behind the heading and navigation arrows.
+  options:
+    paths:
+      uploads: src/assets/images
+      static: ""
+    resize_style: cover
+    width: 1920
+    height: 600
+parallaxImageAlt:
+  type: textarea
+  comment: Alt text describing the parallax header image for screen readers.
+items:
+  type: array
+  label: News articles
+  comment: News article cards rendered in the horizontal carousel beneath the parallax header.
+  options:
+    structures: _structures.newsCarouselItems

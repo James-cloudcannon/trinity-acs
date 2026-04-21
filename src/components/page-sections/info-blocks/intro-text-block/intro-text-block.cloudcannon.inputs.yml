@@ -1,0 +1,24 @@
+announcementText:
+  type: text
+  comment: Small announcement link text shown above the main CTA heading.
+announcementLink:
+  type: url
+  comment: Destination for the announcement link. Leave blank to render as plain text.
+announcementLinkNewTab:
+  type: switch
+  comment: Open the announcement link in a new tab.
+ctaText:
+  type: text
+  comment: Prominent heading text (rendered as large H1). Usually a link anchor like 'Sponsor a Seat'.
+ctaLink:
+  type: url
+  comment: Destination URL for the CTA heading link. Leave blank for a plain heading.
+introText:
+  type: text
+  comment: Short intro paragraph describing the organisation. Rendered as an H3 for semantic consistency with the source.
+showDiamondScroll:
+  type: switch
+  comment: Show the decorative white diamond with chevron scroll anchor at the top of the section.
+scrollAnchorLink:
+  type: url
+  comment: Hash or URL the diamond anchor link points to (e.g. '#about').

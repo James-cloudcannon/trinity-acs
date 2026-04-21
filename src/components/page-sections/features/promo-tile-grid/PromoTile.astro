@@ -1,0 +1,106 @@
+---
+import Heading from "@core-elements/heading/Heading.astro";
+import Image from "@core-elements/image/Image.astro";
+
+const {
+  heading = "",
+  link = "",
+  imageSource = "",
+  imageAlt = "",
+  class: className,
+  useDefaultEditableBinding: _useDefaultEditableBinding = false,
+  _component,
+  ...htmlAttributes
+} = Astro.props;
+
+const hasImage = Boolean(imageSource);
+---
+
+<a
+  class:list={["promo-tile", className]}
+  href={link}
+  data-prop="link"
+  {...htmlAttributes}
+>
+  {
+    hasImage && (
+      <Image
+        class="promo-tile-image"
+        source={imageSource}
+        alt={imageAlt}
+        sizes="(max-width: 480px) 100vw, (max-width: 768px) 50vw, 33vw"
+        widths={[400, 600, 900]}
+        aspectRatio="landscape"
+        background={true}
+        data-prop-src="imageSource"
+        data-prop-alt="imageAlt"
+      />
+    )
+  }
+  <div class="promo-tile-overlay" aria-hidden="true"></div>
+  <div class="promo-tile-text">
+    <Heading
+      class="promo-tile-heading"
+      level="h3"
+      size="md"
+      alignmentHorizontal="center"
+      data-prop="heading"
+    >
+      {heading}
+    </Heading>
+  </div>
+</a>
+
+<style is:global>
+  @layer page-sections {
+    .promo-tile {
+      aspect-ratio: 370 / 300;
+      color: #fff;
+      display: block;
+      overflow: hidden;
+      position: relative;
+      text-decoration: none;
+    }
+
+    .promo-tile > .promo-tile-image {
+      inset: 0;
+      position: absolute;
+      z-index: var(--layer-1);
+    }
+
+    .promo-tile > .promo-tile-overlay {
+      background-color: var(--brand-navy-overlay);
+      inset: 0;
+      position: absolute;
+      transition: background-color 0.3s ease;
+      z-index: var(--layer-2);
+    }
+
+    .promo-tile:hover > .promo-tile-overlay,
+    .promo-tile:focus-visible > .promo-tile-overlay {
+      background-color: var(--brand-primary);
+    }
+
+    .promo-tile > .promo-tile-text {
+      align-items: center;
+      display: flex;
+      height: 100%;
+      justify-content: center;
+      padding: var(--spacing-md);
+      position: relative;
+      text-align: center;
+      z-index: var(--layer-3);
+    }
+
+    .promo-tile > .promo-tile-text > .promo-tile-heading {
+      margin: 0;
+    }
+  }
+
+  @layer overrides {
+    .promo-tile .promo-tile-heading .heading-inner {
+      color: #fff;
+      font-weight: var(--font-weight-normal);
+    }
+  }
+</style>

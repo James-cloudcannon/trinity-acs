@@ -1,0 +1,113 @@
+---
+import CustomSection from "@builders/custom-section/CustomSection.astro";
+import Carousel from "@wrappers/carousel/Carousel.astro";
+import HeroCarouselSlide from "./HeroCarouselSlide.astro";
+
+type SlideProps = Record<string, unknown>;
+
+const {
+  sectionLabel,
+  slides = [],
+  autoPlay = true,
+  autoPlayDelay = 5,
+  loop = true,
+  showIndicators = true,
+  showArrows = false,
+  maxContentWidth = "none",
+  paddingHorizontal = "none",
+  paddingVertical = "none",
+  colorScheme = "inherit",
+  backgroundColor,
+  background,
+  class: className,
+  useDefaultEditableBinding = false,
+  _component,
+  ...htmlAttributes
+} = Astro.props;
+
+const hasSlides = slides && slides.length > 0;
+if (!_component && !hasSlides) return;
+---
+
+<CustomSection
+  class:list={["hero-carousel", className]}
+  label={sectionLabel}
+  maxContentWidth={maxContentWidth}
+  paddingHorizontal={paddingHorizontal}
+  paddingVertical={paddingVertical}
+  colorScheme={colorScheme}
+  backgroundColor={backgroundColor}
+  background={background}
+  useDefaultEditableBinding={useDefaultEditableBinding}
+  {...htmlAttributes}
+>
+  <Carousel
+    class="hero-carousel-inner"
+    label="Hero carousel"
+    slideWidthPercent={100}
+    minSlideWidth={0}
+    autoPlay={autoPlay}
+    loop={loop}
+    showIndicators={showIndicators}
+    showArrows={showArrows}
+    alignmentHorizontal="center"
+    data-children-prop="slides"
+  >
+    {
+      slides.map((slide: SlideProps, index: number) => (
+        <HeroCarouselSlide
+          aria-label={`Slide ${index + 1} of ${slides.length}`}
+          data-editable="array-item"
+          data-id="page-sections/heroes/hero-carousel/hero-carousel-slide"
+          priority={index === 0}
+          {...slide}
+        />
+      ))
+    }
+  </Carousel>
+</CustomSection>
+
+<style is:global>
+  @layer overrides {
+    .hero-carousel > .outer-content > .content {
+      padding-inline: 0 !important;
+      padding-block: 0 !important;
+      max-width: none !important;
+    }
+
+    .hero-carousel .hero-carousel-inner.carousel {
+      margin-top: 0 !important;
+    }
+
+    .hero-carousel .hero-carousel-inner > .carousel-inner {
+      position: relative;
+    }
+
+    .hero-carousel .hero-carousel-inner > .carousel-inner > .viewport {
+      width: 100%;
+    }
+
+    .hero-carousel .hero-carousel-inner > .carousel-inner > .controls-wrapper {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: var(--spacing-md);
+      margin: 0;
+      z-index: 3;
+      pointer-events: none;
+    }
+
+    .hero-carousel .hero-carousel-inner > .carousel-inner > .controls-wrapper > .indicators {
+      pointer-events: auto;
+    }
+
+    .hero-carousel .hero-carousel-inner > .carousel-inner > .controls-wrapper > .indicators > .indicator {
+      background-color: rgba(255, 255, 255, 0.5);
+      width: 10px;
+    }
+
+    .hero-carousel .hero-carousel-inner > .carousel-inner > .controls-wrapper > .indicators > .indicator[data-selected="true"] {
+      background-color: rgba(255, 255, 255, 1);
+    }
+  }
+</style>
