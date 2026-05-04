@@ -1,11 +1,14 @@
 ---
 _schema: default
 title: Why
-description: Learn why this Astro component starter was built and how it helps teams create fast, flexible static sites.
+description: >-
+  Learn why this Astro component starter was built and how it helps teams create
+  fast, flexible static sites.?
 pageSections:
   - _component: page-sections/heroes/hero-split
+    sectionLabel: ''
     eyebrow:
-    heading: Why build an Astro component starter?
+    heading: Why build an Astro component starter??
     subtext: >-
       At CloudCannon, we're big fans of the static web. And we love what the
       Astro team is building!
@@ -21,15 +24,22 @@ pageSections:
     imageAspectRatio: portrait
     buttonSections: []
     reverse: true
+    maxContentWidth: xl
+    paddingHorizontal: lg
+    paddingVertical: 4xl
     colorScheme: inherit
     backgroundColor: base
-    paddingVertical: 4xl
+    background:
+      type: image
+      positionVertical: top
+      positionHorizontal: center
+      priority: false
+      imageSource: ''
+      imageAlt: ''
+      overlay: 0
   - _component: page-sections/info-blocks/faq-section
+    sectionLabel: ''
     heading: Frequently asked questions
-    headingLevel: h2
-    headingSize: lg
-    singleOpen: true
-    openFirst: false
     items:
       - title: How does the Component Starter work?
         contentSections:
@@ -38,6 +48,7 @@ pageSections:
               We give you [straightforward building blocks](/component-docs/)
               without hiding anything behind layers of abstraction. You see
               everything that's happening, and stay in control.
+            alignmentHorizontal: start
             size: md
       - title: What's included in the Component Starter?
         contentSections:
@@ -46,6 +57,7 @@ pageSections:
               Lean HTML, CSS, and small touches of vanilla JavaScript. No dead
               weight, no surprise dependencies, just the pieces you actually
               need to build great pages.
+            alignmentHorizontal: start
             size: md
       - title: How is the Component Starter so fast?
         contentSections:
@@ -54,6 +66,7 @@ pageSections:
               Performance comes from keeping things lightweight. The framework
               handles image optimization and responsive patterns so your site
               stays quick without extra work.
+            alignmentHorizontal: start
             size: md
       - title: Can I customize the Component Starter?
         contentSections:
@@ -63,12 +76,25 @@ pageSections:
               and edited. You shape it to fit your project instead of working
               around someone else's opinions. Start by [browsing the
               components](/component-docs/) to see how they're set up!
+            alignmentHorizontal: start
             size: md
     maxContentWidth: xl
     paddingHorizontal: xl
     paddingVertical: 4xl
     colorScheme: inherit
     backgroundColor: none
+    background:
+      type: image
+      positionVertical: top
+      positionHorizontal: center
+      priority: false
+      imageSource: ''
+      imageAlt: ''
+      overlay: 0
+    headingLevel: h2
+    headingSize: lg
+    singleOpen: true
+    openFirst: false
   - _component: page-sections/builders/custom-section
     label: ''
     contentSections:
@@ -80,6 +106,7 @@ pageSections:
         size: default
         alignmentHorizontal: center
         iconName:
+        iconColor: default
         iconPosition: before
       - _component: building-blocks/core-elements/text
         text: >-
@@ -92,10 +119,21 @@ pageSections:
     paddingVertical: md
     colorScheme: dark
     backgroundColor: surface
+    background:
+      type: image
+      positionVertical: top
+      positionHorizontal: center
+      priority: false
+      imageSource: ''
+      imageAlt: ''
+      overlay: 0
     rounded: false
+    useDefaultEditableBinding: true
   - _component: page-sections/features/feature-slider
+    sectionLabel: ''
     slides:
-      - eyebrow: First slide demonstration
+      - _component: page-sections/features/feature-slider/feature-slider-item
+        eyebrow: First slide demonstration
         title: Welcome to the carousel component
         description: >-
           This initial slide introduces visitors to the rotating content
@@ -106,7 +144,8 @@ pageSections:
         imageSource: /src/assets/images/component-docs/quiet-street.jpg
         imageAlt: High Performance
         minSplitWidth: 0
-      - eyebrow: Content transition example
+      - _component: page-sections/features/feature-slider/feature-slider-item
+        eyebrow: Content transition example
         title: Seamless navigation between slides
         description: >-
           As you move to the second position, observe how the previous content
@@ -117,7 +156,8 @@ pageSections:
         imageSource: /src/assets/images/component-docs/sheep.jpg
         imageAlt: Easy Maintenance
         minSplitWidth: 0
-      - eyebrow: Third position showcase
+      - _component: page-sections/features/feature-slider/feature-slider-item
+        eyebrow: Third position showcase
         title: Maintaining consistent formatting
         description: >-
           By the third slide, the pattern becomes clear. Each rotation maintains
@@ -127,7 +167,8 @@ pageSections:
         imageSource: /src/assets/images/component-docs/castle.jpg
         imageAlt: Move Faster
         minSplitWidth: 300
-      - eyebrow: Final slide
+      - _component: page-sections/features/feature-slider/feature-slider-item
+        eyebrow: Final slide
         title: Completing the carousel loop
         description: >-
           This fourth and final slide demonstrates how the component handles the
@@ -138,26 +179,46 @@ pageSections:
         imageSource: /src/assets/images/component-docs/dunedin-cliff.jpg
         imageAlt: Long-Term Stability
         minSplitWidth: 0
+    maxContentWidth: xl
+    paddingHorizontal: lg
+    paddingVertical: 4xl
     colorScheme: dark
     backgroundColor: surface
+    background:
+      type: image
+      positionVertical: top
+      positionHorizontal: center
+      priority: false
+      imageSource: ''
+      imageAlt: ''
+      overlay: 0
     eyebrow: Why Carousel
     heading: Why this approach works
     subtext: Highlight the core reasons in a simple, swipeable format.
-    paddingVertical: 4xl
   - _component: page-sections/people/testimonial-section
+    sectionLabel: ''
     text: >-
       This testimonial component has completely changed the way I present my
       quotations on Astro sites. I couldn't be happier with the results.
     authorName: John Convincingname
     authorDescription: Founder
     authorImage: /src/assets/images/component-docs/profile.jpg
-    alignmentHorizontal: center
     maxContentWidth: xl
     paddingHorizontal: xl
     paddingVertical: 2xl
     colorScheme: dark
     backgroundColor: surface
+    background:
+      type: image
+      positionVertical: top
+      positionHorizontal: center
+      priority: false
+      imageSource: ''
+      imageAlt: ''
+      overlay: 0
+    alignmentHorizontal: center
   - _component: page-sections/people/team-grid
+    sectionLabel: ''
     eyebrow: Our Team
     heading: Meet the people
     subtext: We're a group of stock photography faces that fill out this team grid.
@@ -197,10 +258,21 @@ pageSections:
           sizes.
         imageSource: /src/assets/images/component-docs/profile4.jpg
         imageAlt: Emily Watson, Director of Operations
+    maxContentWidth: 2xl
+    paddingHorizontal: lg
+    paddingVertical: 2xl
     colorScheme: dark
     backgroundColor: surface
-    paddingVertical: 2xl
+    background:
+      type: image
+      positionVertical: top
+      positionHorizontal: center
+      priority: false
+      imageSource: ''
+      imageAlt: ''
+      overlay: 0
   - _component: page-sections/ctas/cta-form
+    sectionLabel: ''
     heading: Form and function!
     subtext: >-
       This is a sample form component, so it's not wired up with a target inbox
@@ -214,11 +286,15 @@ pageSections:
         name: name
         type: text
         required: true
+        iconColor: default
+        iconPosition: before
       - _component: building-blocks/forms/input
         label: Email
         name: email
         type: email
         required: true
+        iconColor: default
+        iconPosition: before
       - _component: building-blocks/forms/textarea
         label: Message
         name: message
@@ -227,13 +303,24 @@ pageSections:
         text: Send message
         variant: primary
         size: md
+        iconColor: default
         iconPosition: before
         hideText: false
         disabled: false
     imageSource: /src/assets/images/component-docs/castle.jpg
     imageAlt: Get in touch
     reverse: false
+    maxContentWidth: 2xl
+    paddingHorizontal: lg
+    paddingVertical: 4xl
     colorScheme: dark
     backgroundColor: surface
-    paddingVertical: 4xl
+    background:
+      type: image
+      positionVertical: top
+      positionHorizontal: center
+      priority: false
+      imageSource: ''
+      imageAlt: ''
+      overlay: 0
 ---
